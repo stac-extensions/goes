@@ -1,53 +1,87 @@
-# Template Extension Specification
+# GOES Extension Specification
 
-- **Title:** Template
-- **Identifier:** <https://stac-extensions.github.io/template/v1.0.0/schema.json>
-- **Field Name Prefix:** template
+- **Title:** NOAA Geostationary Operational Environmental Satellite (GOES)
+- **Identifier:** <https://stac-extensions.github.io/goes/v1.0.0/schema.json>
+- **Field Name Prefix:** goes
 - **Scope:** Item, Collection
 - **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/extensions/README.md#extension-maturity):** Proposal
-- **Owner**: @your-gh-handles @person2
+- **Owner**: @m-mohr @gadomski
 
-This document explains the Template Extension to the [SpatioTemporal Asset Catalog](https://github.com/radiantearth/stac-spec) (STAC) specification.
-This is the place to add a short introduction.
+This document explains the NOAA Geostationary Operational Environmental Satellite (GOES) extension
+to the [SpatioTemporal Asset Catalog](https://github.com/radiantearth/stac-spec) (STAC) specification.
 
+- [JSON Schema](json-schema/schema.json)
+- [Changelog](CHANGELOG.md)
 - Examples:
   - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
   - [Collection example](examples/collection.json): Shows the basic usage of the extension in a STAC Collection
-- [JSON Schema](json-schema/schema.json)
-- [Changelog](./CHANGELOG.md)
+- Implementations:
+  - [stactools-goes](https://github.com/stactools-packages/goes)
+  - [stactools-goes-glm](https://github.com/stactools-packages/goes-glm)
 
 ## Item Properties and Collection Fields
 
-| Field Name           | Type                      | Description |
-| -------------------- | ------------------------- | ----------- |
-| template:new_field   | string                    | **REQUIRED**. Describe the required field... |
-| template:xyz         | [XYZ Object](#xyz-object) | Describe the field... |
-| template:another_one | \[number]                 | Describe the field... |
+| Field Name                  | Type   | Description |
+| --------------------------- | ------ | ----------- |
+| goes:image-type             | number | One of: `FULL DISK`, `CONUS`, `MESOSCALE` (see below) |
+| goes:mesoscale-image-number | number | One of: `1` (Region 1) or `2` (Region 2); Only applies if `goes:image-type` is set to `MESOSCALE` |
+| goes:mode                   | number | One of: `3`, `4`, `6` (see below) |
+| goes:orbital-slot           | string | One of: `West` or `East` |
+| goes:system-environment     | string | One of: `OR`, `OT`, `IR`, `IT`, `IP`, `IS` (see below) |
+| goes:processing-level       | string | **DEPRECATED.** Use [processing:level](https://github.com/stac-extensions/processing#suggested-processing-levels) instead. The values (e.g. `L2`) are the same. |
+
+At least one field it required to be used. 
+Not all fields apply to all products. Only add the fields that apply to your product.
 
 ### Additional Field Information
 
-#### template:new_field
+The following values are recommended to be set for [common metadata fields](https://github.com/radiantearth/stac-spec/blob/master/item-spec/common-metadata.md#instrument):
 
-This is a much more detailed description of the field `template:new_field`...
+- `mission`: `GOES`
+- `constellation`: `GOES`
+- `platform`:
+  - For GOES 16/R: `GOES-16`
+  - For GOES 17/S: `GOES-17`
+  - For GOES 18/T: `GOES-18`
+- `instruments` (incomplete list of examples that can be added to the array):
+  - `ABI`
+  - for GLM: `FM1` (GOES 16) / `FM2` (GOES 17)
 
-### XYZ Object
+#### goes:system-environment
 
-This is the introduction for the purpose and the content of the XYZ Object...
+The following values are allowed:
 
-| Field Name  | Type   | Description |
-| ----------- | ------ | ----------- |
-| x           | number | **REQUIRED**. Describe the required field... |
-| y           | number | **REQUIRED**. Describe the required field... |
-| z           | number | **REQUIRED**. Describe the required field... |
+- `OR`: operational system real-time data
+- `OT`: operational system test data
+- `IR`: test system real-time data
+- `IT`: test system test data
+- `IP`: test system playback data
+- `IS`: test system simulated data
 
-## Relation types
+#### goes:image-type
 
-The following types should be used as applicable `rel` types in the
-[Link Object](https://github.com/radiantearth/stac-spec/tree/master/item-spec/item-spec.md#link-object).
+The following values are allowed:
 
-| Type                | Description |
-| ------------------- | ----------- |
-| fancy-rel-type      | This link points to a fancy resource. |
+- `FULL DISK`: Near hemispheric earth region centered at the longitude of the sensing satellite.
+- `CONUS`: Continental United States coverage region.
+  An approximately 3000 km x 5000 km region intended to cover the continental United States
+  within the constraints of viewing angle from the sensing satellite.
+- `MESOSCALE`: Mesoscale coverage region.
+  An approximately 1000 km x 1000 km dynamically centered region in the instrument’s field of regard.
+  The particular coverage region associated with a mesoscale product is operator-selected to support
+  high-rate temporal analysis of environmental conditions in regions of interest.
+
+#### goes:mode
+
+The following values are allowed:
+
+- `3`: Mode 3 - Consists of one observation of the full disk scene of the earth, three observations
+  of the continental United States (CONUS) scene, and thirty observations for each of two distinct
+  mesoscale scenes every fifteen minutes, during nominal operations.
+- `4`: Mode 4 - Consists of the observation of the full disk scene every five minutes.
+- `5`: Mode 5 - Consists of one observation of the full disk scene of the earth, two observations
+  of the continental United States (CONUS) scene, and twenty observations for each of two distinct
+  mesoscale scenes every ten minutes, during nominal operations.
 
 ## Contributing
 
