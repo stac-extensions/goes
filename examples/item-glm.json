@@ -1,0 +1,672 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "OR_GLM-L2-LCFA_G16_s20203662359400_e20210010000004",
+  "properties": {
+    "start_datetime": "2020-12-31T23:59:40.0Z",
+    "end_datetime": "2021-01-01T00:00:00.4Z",
+    "mission": "GOES",
+    "constellation": "GOES",
+    "platform": "GOES-16",
+    "instruments": [
+      "FM1"
+    ],
+    "gsd": 8000,
+    "processing:level": "L2",
+    "processing:facility": "WCDAS",
+    "goes:orbital_slot": "East",
+    "goes:system_environment": "OR",
+    "goes:lightning_wavelength": 777.3699951171875,
+    "goes:group_time_threshold": 0,
+    "goes:flash_time_threshold": 3.3299999237060547,
+    "goes:event_count": 11236,
+    "goes:group_count": 3706,
+    "goes:flash_count": 179,
+    "goes:percent_navigated_L1b_events": 1,
+    "goes:yaw_flip_flag": 0,
+    "goes:nominal_satellite_subpoint_lat": 0,
+    "goes:nominal_satellite_height": 35786.0234375,
+    "goes:nominal_satellite_subpoint_lon": -75.19999694824219,
+    "goes:percent_uncorrectable_L0_errors": 0,
+    "proj:epsg": 4326,
+    "proj:centroid": {
+      "lat": 0,
+      "lon": -75
+    },
+    "datetime": "2020-12-31T23:59:50.200000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -141.56,
+          66.56
+        ],
+        [
+          -141.56,
+          -66.56
+        ],
+        [
+          -8.44,
+          -66.56
+        ],
+        [
+          -8.44,
+          66.56
+        ],
+        [
+          -141.56,
+          66.56
+        ]
+      ]
+    ]
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "./collection.json",
+      "type": "application/json",
+      "title": "GLM L2 Lightning Detections: Events, Groups, and Flashes"
+    }
+  ],
+  "assets": {
+    "geoparquet_events": {
+      "href": "events.parquet",
+      "type": "application/x-parquet",
+      "title": "Processed GeoParquet file for events",
+      "table:primary_geometry": "geometry",
+      "table:columns": [
+        {
+          "name": "geometry",
+          "type": "point"
+        },
+        {
+          "name": "id",
+          "type": "int32",
+          "description": "product-unique lightning event identifier"
+        },
+        {
+          "name": "time",
+          "type": "datetime"
+        },
+        {
+          "name": "time_offset",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: event's time of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "energy",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: event radiant energy",
+          "unit": "J"
+        },
+        {
+          "name": "parent_group_id",
+          "type": "int32",
+          "description": "product-unique lightning group identifier for one or more events"
+        }
+      ],
+      "table:row_count": 11236,
+      "roles": [
+        "data",
+        "cloud-optimized"
+      ]
+    },
+    "geoparquet_flashes": {
+      "href": "flashes.parquet",
+      "type": "application/x-parquet",
+      "title": "Processed GeoParquet file for flashes",
+      "table:primary_geometry": "geometry",
+      "table:columns": [
+        {
+          "name": "geometry",
+          "type": "point"
+        },
+        {
+          "name": "id",
+          "type": "int16",
+          "description": "product-unique lightning flash identifier"
+        },
+        {
+          "name": "time_of_first_event",
+          "type": "datetime"
+        },
+        {
+          "name": "time_offset_of_first_event",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: time of occurrence of first constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "time_of_last_event",
+          "type": "datetime"
+        },
+        {
+          "name": "time_offset_of_last_event",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: time of occurrence of last constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "frame_time_of_first_event",
+          "type": "datetime"
+        },
+        {
+          "name": "frame_time_offset_of_first_event",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: time of occurrence of first constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "frame_time_of_last_event",
+          "type": "datetime"
+        },
+        {
+          "name": "frame_time_offset_of_last_event",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: time of occurrence of last constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "area",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: flash area coverage (pixels containing at least one constituent event only)",
+          "unit": "m2"
+        },
+        {
+          "name": "energy",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: flash radiant energy",
+          "unit": "J"
+        },
+        {
+          "name": "quality_flag",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: flash data quality flags"
+        }
+      ],
+      "table:row_count": 179,
+      "roles": [
+        "data",
+        "cloud-optimized"
+      ]
+    },
+    "geoparquet_groups": {
+      "href": "groups.parquet",
+      "type": "application/x-parquet",
+      "title": "Processed GeoParquet file for groups",
+      "table:primary_geometry": "geometry",
+      "table:columns": [
+        {
+          "name": "geometry",
+          "type": "point"
+        },
+        {
+          "name": "id",
+          "type": "int32",
+          "description": "product-unique lightning group identifier"
+        },
+        {
+          "name": "time",
+          "type": "datetime"
+        },
+        {
+          "name": "time_offset",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: mean time of group's constituent events' times of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "frame_time",
+          "type": "datetime"
+        },
+        {
+          "name": "frame_time_offset",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: mean time of group's constituent events' times of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        {
+          "name": "area",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: group area coverage (pixels containing at least one constituent event only)",
+          "unit": "m2"
+        },
+        {
+          "name": "energy",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: group radiant energy",
+          "unit": "J"
+        },
+        {
+          "name": "quality_flag",
+          "type": "int16",
+          "description": "GLM L2+ Lightning Detection: group data quality flags"
+        },
+        {
+          "name": "parent_flash_id",
+          "type": "int16",
+          "description": "product-unique lightning flash identifier for one or more groups"
+        }
+      ],
+      "table:row_count": 3706,
+      "roles": [
+        "data",
+        "cloud-optimized"
+      ]
+    },
+    "netcdf": {
+      "href": "OR_GLM-L2-LCFA_G16_s20203662359400_e20210010000004_c20210010000030.nc",
+      "type": "application/netcdf",
+      "title": "Original netCDF 4 file",
+      "created": "2021-01-01T00:00:03.0Z",
+      "cube:dimensions": {
+        "number_of_flashes": {
+          "type": "number_of_flashes",
+          "extent": [
+            null,
+            null
+          ]
+        },
+        "number_of_groups": {
+          "type": "number_of_groups",
+          "extent": [
+            null,
+            null
+          ]
+        },
+        "number_of_events": {
+          "type": "number_of_events",
+          "extent": [
+            null,
+            null
+          ]
+        },
+        "number_of_time_bounds": {
+          "type": "number_of_time_bounds",
+          "extent": [
+            662731180,
+            662731200.469121
+          ]
+        },
+        "number_of_field_of_view_bounds": {
+          "type": "number_of_field_of_view_bounds",
+          "extent": [
+            -141.55999755859375,
+            66.55999755859375
+          ]
+        },
+        "number_of_wavelength_bounds": {
+          "type": "number_of_wavelength_bounds",
+          "extent": [
+            776.8699951171875,
+            777.8699951171875
+          ]
+        }
+      },
+      "cube:variables": {
+        "event_id": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "auxiliary",
+          "description": "product-unique lightning event identifier"
+        },
+        "event_time_offset": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "data",
+          "description": "event's time of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000",
+          "axis": "T"
+        },
+        "event_lat": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "data",
+          "description": "event latitude coordinate",
+          "unit": "degrees_north",
+          "axis": "Y"
+        },
+        "event_lon": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "data",
+          "description": "event longitude coordinate",
+          "unit": "degrees_east",
+          "axis": "X"
+        },
+        "event_energy": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "data",
+          "description": "event radiant energy",
+          "unit": "J"
+        },
+        "event_parent_group_id": {
+          "dimensions": [
+            "number_of_events"
+          ],
+          "type": "auxiliary",
+          "description": "product-unique lightning group identifier for one or more events"
+        },
+        "group_id": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "auxiliary",
+          "description": "product-unique lightning group identifier"
+        },
+        "group_time_offset": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "mean time of group's constituent events' times of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000",
+          "axis": "T"
+        },
+        "group_frame_time_offset": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "mean time of group's constituent events' times of occurrence",
+          "unit": "seconds since 2020-12-31 23:59:40.000",
+          "axis": "T"
+        },
+        "group_lat": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "group centroid (mean constituent event latitude weighted by their energies) latitude coordinate",
+          "unit": "degrees_north",
+          "axis": "Y"
+        },
+        "group_lon": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "group centroid (mean constituent event latitude weighted by their energies) longitude coordinate",
+          "unit": "degrees_east",
+          "axis": "X"
+        },
+        "group_area": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "auxiliary",
+          "description": "group area coverage (pixels containing at least one constituent event only)",
+          "unit": "m2"
+        },
+        "group_energy": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "group radiant energy",
+          "unit": "J"
+        },
+        "group_parent_flash_id": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "auxiliary",
+          "description": "product-unique lightning flash identifier for one or more groups"
+        },
+        "group_quality_flag": {
+          "dimensions": [
+            "number_of_groups"
+          ],
+          "type": "data",
+          "description": "group data quality flags"
+        },
+        "flash_id": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "auxiliary",
+          "description": "product-unique lightning flash identifier"
+        },
+        "flash_time_offset_of_first_event": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "time of occurrence of first constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000",
+          "axis": "T"
+        },
+        "flash_time_offset_of_last_event": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "time of occurrence of last constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        "flash_frame_time_offset_of_first_event": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "time of occurrence of first constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000",
+          "axis": "T"
+        },
+        "flash_frame_time_offset_of_last_event": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "time of occurrence of last constituent event in flash",
+          "unit": "seconds since 2020-12-31 23:59:40.000"
+        },
+        "flash_lat": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "flash centroid (mean constituent event latitude weighted by their energies) latitude coordinate",
+          "unit": "degrees_north",
+          "axis": "Y"
+        },
+        "flash_lon": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "flash centroid (mean constituent event latitude weighted by their energies) longitude coordinate",
+          "unit": "degrees_east",
+          "axis": "X"
+        },
+        "flash_area": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "auxiliary",
+          "description": "flash area coverage (pixels containing at least one constituent event only)",
+          "unit": "m2"
+        },
+        "flash_energy": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "flash radiant energy",
+          "unit": "J"
+        },
+        "flash_quality_flag": {
+          "dimensions": [
+            "number_of_flashes"
+          ],
+          "type": "data",
+          "description": "flash data quality flags"
+        },
+        "product_time": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "start time of observations associated with product",
+          "unit": "seconds since 2000-01-01 12:00:00",
+          "axis": "T"
+        },
+        "product_time_bounds": {
+          "dimensions": [
+            "number_of_time_bounds"
+          ],
+          "type": "auxiliary",
+          "description": "start and end time of observations associated with product"
+        },
+        "lightning_wavelength": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "central wavelength for lightning data",
+          "unit": "nm"
+        },
+        "lightning_wavelength_bounds": {
+          "dimensions": [
+            "number_of_wavelength_bounds"
+          ],
+          "type": "auxiliary",
+          "description": "wavelength range lightning data (full width at half the maximum of the response function)"
+        },
+        "group_time_threshold": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "lightning group maximum time difference among lightning events in a group",
+          "unit": "s"
+        },
+        "flash_time_threshold": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "lightning flash maximum time difference among lightning events in a flash",
+          "unit": "s"
+        },
+        "lat_field_of_view": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "latitude coordinate for center of field of view",
+          "unit": "degrees_north",
+          "axis": "Y"
+        },
+        "lat_field_of_view_bounds": {
+          "dimensions": [
+            "number_of_field_of_view_bounds"
+          ],
+          "type": "auxiliary",
+          "description": "latitude coordinates for north/south extent of field of view"
+        },
+        "goes_lat_lon_projection": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "GOES-R latitude / longitude projection"
+        },
+        "event_count": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "number of lightning events in product"
+        },
+        "group_count": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "number of lightning groups in product"
+        },
+        "flash_count": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "number of lightning flashes in product"
+        },
+        "percent_navigated_L1b_events": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "after false event filtering, percent of lightning events navigated by instrument",
+          "unit": "%"
+        },
+        "yaw_flip_flag": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "Flag indicating spacecraft is operating in yaw flip configuration"
+        },
+        "nominal_satellite_subpoint_lat": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "nominal satellite subpoint latitude (platform latitude)",
+          "unit": "degrees_north"
+        },
+        "nominal_satellite_height": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "nominal satellite height above GRS 80 ellipsoid (platform altitude)",
+          "unit": "km"
+        },
+        "nominal_satellite_subpoint_lon": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "nominal satellite subpoint longitude (platform longitude)",
+          "unit": "degrees_east"
+        },
+        "lon_field_of_view": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "longitude coordinate for center of field of view",
+          "unit": "degrees_east",
+          "axis": "X"
+        },
+        "lon_field_of_view_bounds": {
+          "dimensions": [
+            "number_of_field_of_view_bounds"
+          ],
+          "type": "auxiliary",
+          "description": "longitude coordinates for west/east extent of field of view"
+        },
+        "percent_uncorrectable_L0_errors": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "percent data lost due to uncorrectable L0 errors",
+          "unit": "%"
+        },
+        "algorithm_dynamic_input_data_container": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "container for filenames of dynamic algorithm input data"
+        },
+        "processing_parm_version_container": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "container for processing parameter filenames"
+        },
+        "algorithm_product_version_container": {
+          "dimensions": [],
+          "type": "auxiliary",
+          "description": "container for algorithm package filename and product version"
+        }
+      },
+      "roles": [
+        "data",
+        "source"
+      ]
+    }
+  },
+  "bbox": [
+    -141.56,
+    -66.56,
+    -8.44,
+    66.56
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/goes/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/processing/v1.1.0/schema.json",
+    "https://stac-extensions.github.io/projection/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/datacube/v2.1.0/schema.json"
+  ],
+  "collection": "goes-glm"
+}

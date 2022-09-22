@@ -13,25 +13,53 @@ to the [SpatioTemporal Asset Catalog](https://github.com/radiantearth/stac-spec)
 - [JSON Schema](json-schema/schema.json)
 - [Changelog](CHANGELOG.md)
 - Examples:
-  - [Item example](examples/item.json): Shows the basic usage of the extension in a STAC Item
-  - [Collection example](examples/collection.json): Shows the basic usage of the extension in a STAC Collection
+  - [GLM Item example](examples/item-glm.json): An example for GLM
+  - [ABI Item example](examples/item-abi.json): An shortened example for ABI
 - Implementations:
   - [stactools-goes](https://github.com/stactools-packages/goes)
   - [stactools-goes-glm](https://github.com/stactools-packages/goes-glm)
 
 ## Item Properties and Collection Fields
 
+At least one field it required to be used. 
+
+### Common
+
+These fields can be used both for ABI and GLM.
+
 | Field Name                  | Type   | Description |
 | --------------------------- | ------ | ----------- |
-| goes:image-type             | number | One of: `FULL DISK`, `CONUS`, `MESOSCALE` (see below) |
-| goes:mesoscale-image-number | number | One of: `1` (Region 1) or `2` (Region 2); Only applies if `goes:image-type` is set to `MESOSCALE` |
-| goes:mode                   | number | One of: `3`, `4`, `6` (see below) |
-| goes:orbital-slot           | string | One of: `West` or `East` |
-| goes:system-environment     | string | One of: `OR`, `OT`, `IR`, `IT`, `IP`, `IS` (see below) |
-| goes:processing-level       | string | **DEPRECATED.** Use [processing:level](https://github.com/stac-extensions/processing#suggested-processing-levels) instead. The values (e.g. `L2`) are the same. |
+| goes:orbital_slot           | string | One of: `West`, `East` or `Test` |
+| goes:system_environment     | string | One of: `OR`, `OT`, `IR`, `IT`, `IP`, `IS` (see below) |
 
-At least one field it required to be used. 
-Not all fields apply to all products. Only add the fields that apply to your product.
+### ABI only
+
+These fields can be used if the `instruments` field contains `ABI`. 
+
+| Field Name                  | Type    | Description |
+| --------------------------- | ------- | ----------- |
+| goes:image_type             | number  | One of: `FULL DISK`, `CONUS`, `MESOSCALE` (see below) |
+| goes:mesoscale_image_number | integer | One of: `1` (Region 1) or `2` (Region 2); Only applies if `goes:image_type` is set to `MESOSCALE` |
+| goes:mode                   | string | One of: `3`, `4`, `6` (see below) |
+
+### GLM only
+
+These fields can be used if the `instruments` field contains any of the GLM instruments (`FM1`, `FM2`, ...). 
+
+| Field Name                           | Type    | Description |
+| ------------------------------------ | ------- | ----------- |
+| goes:group_time_threshold            | number  | Lightning group maximum time difference among lightning events in a group (in seconds) |
+| goes:flash_time_threshold            | number  | Lightning flash maximum time difference among lightning events in a flash (in seconds) |
+| goes:lightning_wavelength            | number  | central wavelength for lightning data (in nm) |
+| goes:yaw_flip_flag                   | integer | Flag indicating spacecraft is operating in yaw flip configuration. 0 = upright, 1 = neither, 2 = inverted |
+| goes:event_count                     | integer | The number of lightning events in the product |
+| goes:group_count                     | integer | The number of lightning groups in the product |
+| goes:flash_count                     | integer | The number of lightning flashes in the product |
+| goes:nominal_satellite_subpoint_lat  | number  | Nominal satellite subpoint latitude (platform latitude in degrees north) |
+| goes:nominal_satellite_subpoint_lon  | number  | Nominal satellite subpoint longitude (platform longitude in degrees east) |
+| goes:nominal_satellite_height        | number  | Nominal satellite height above GRS 80 ellipsoid (platform altitude in kilometers) |
+| goes:percent_navigated_L1b_events    | number  | After false event filtering, percent of lightning events navigated by instrument (0-1) |
+| goes:percent_uncorrectable_L0_errors | number  | Percent data lost due to uncorrectable L0 errors (0-1) |
 
 ### Additional Field Information
 
@@ -47,7 +75,7 @@ The following values are recommended to be set for [common metadata fields](http
   - `ABI`
   - for GLM: `FM1` (GOES 16) / `FM2` (GOES 17)
 
-#### goes:system-environment
+#### goes:system_environment
 
 The following values are allowed:
 
@@ -58,7 +86,7 @@ The following values are allowed:
 - `IP`: test system playback data
 - `IS`: test system simulated data
 
-#### goes:image-type
+#### goes:image_type
 
 The following values are allowed:
 
