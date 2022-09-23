@@ -1,0 +1,286 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://stac-extensions.github.io/goes/v1.0.0/schema.json#",
+  "title": "GOES Extension",
+  "description": "NOAA Geostationary Operational Environmental Satellite (GOES) Extension for STAC Items and STAC Collections.",
+  "oneOf": [
+    {
+      "$comment": "This is the schema for STAC Items. Remove this object if this extension only applies to Collections.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/stac_extensions"
+        },
+        {
+          "type": "object",
+          "required": [
+            "type",
+            "properties",
+            "assets"
+          ],
+          "properties": {
+            "type": {
+              "const": "Feature"
+            },
+            "properties": {
+              "$ref": "#/definitions/fields"
+            },
+            "assets": {
+              "$comment": "This validates the fields in Item Assets, but does not require them.",
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/fields"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$comment": "This is the schema for STAC Collections.",
+      "type": "object",
+      "allOf": [
+        {
+          "required": [
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "const": "Collection"
+            }
+          }
+        },
+        {
+          "$ref": "#/definitions/stac_extensions"
+        }
+      ],
+      "anyOf": [
+        {
+          "$ref": "#/definitions/fields"
+        },
+        {
+          "$comment": "This validates the fields in Collection Assets, but does not require them.",
+          "required": [
+            "assets"
+          ],
+          "properties": {
+            "assets": {
+              "type": "object",
+              "not": {
+                "additionalProperties": {
+                  "not": {
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/require_any_field"
+                      },
+                      {
+                        "$ref": "#/definitions/fields"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "This is the schema for the fields in Item Asset Definitions. It doesn't require any fields.",
+          "required": [
+            "item_assets"
+          ],
+          "properties": {
+            "item_assets": {
+              "type": "object",
+              "not": {
+                "additionalProperties": {
+                  "not": {
+                    "allOf": [
+                      {
+                        "$ref": "#/definitions/require_any_field"
+                      },
+                      {
+                        "$ref": "#/definitions/fields"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "$comment": "This is the schema for the fields in Summaries. By default, only checks the existance of the properties, but not the schema of the summaries.",
+          "required": [
+            "summaries"
+          ],
+          "properties": {
+            "summaries": {
+              "$ref": "#/definitions/require_any_field"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "definitions": {
+    "stac_extensions": {
+      "type": "object",
+      "required": [
+        "stac_extensions"
+      ],
+      "properties": {
+        "stac_extensions": {
+          "type": "array",
+          "contains": {
+            "const": "https://stac-extensions.github.io/goes/v1.0.0/schema.json"
+          }
+        }
+      }
+    },
+    "require_any_field": {
+      "$comment": "Please list all fields here so that we can force the existance of one of them in other parts of the schemas.",
+      "anyOf": [
+        {"required": ["goes:orbital_slot"]},
+        {"required": ["goes:system_environment"]},
+        {"required": ["goes:processing_level"]},
+        {"required": ["goes:image_type"]},
+        {"required": ["goes:mesoscale_image_number"]},
+        {"required": ["goes:mode"]},
+        {"required": ["goes:group_time_threshold"]},
+        {"required": ["goes:flash_time_threshold"]},
+        {"required": ["goes:lightning_wavelength"]},
+        {"required": ["goes:yaw_flip_flag"]},
+        {"required": ["goes:event_count"]},
+        {"required": ["goes:group_count"]},
+        {"required": ["goes:flash_count"]},
+        {"required": ["goes:nominal_satellite_subpoint_lat"]},
+        {"required": ["goes:nominal_satellite_subpoint_lon"]},
+        {"required": ["goes:nominal_satellite_height"]},
+        {"required": ["goes:percent_navigated_L1b_events"]},
+        {"required": ["goes:percent_uncorrectable_L0_errors"]}
+      ]
+    },
+    "fields": {
+      "$comment": "Add your new fields here. Don't require them here, do that above in the corresponding schema.",
+      "type": "object",
+      "if": {
+        "properties": {
+          "goes:image_type": {
+            "type": "string",
+            "const": "MESOSCALE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "goes:mesoscale_image_number": {
+            "type": "integer",
+            "enum": [
+              1,
+              2
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "goes:mesoscale_image_number": {
+            "not": {}
+          }
+        }
+      },
+      "properties": {
+        "goes:image_type": {
+          "type": "string",
+          "enum": [
+            "FULL DISK",
+            "CONUS",
+            "MESOSCALE"
+          ]
+        },
+        "goes:orbital_slot": {
+          "type": "string",
+          "enum": [
+            "West",
+            "East",
+            "Test"
+          ]
+        },
+        "goes:system_environment": {
+          "type": "string",
+          "enum": [
+            "OR",
+            "OT",
+            "IR",
+            "IT",
+            "IP",
+            "IS"
+          ]
+        },
+        "goes:mode": {
+          "type": "string",
+          "enum": [
+            "3",
+            "4",
+            "6"
+          ]
+        },
+        "goes:group_time_threshold": {
+          "type": "number",
+          "minimum": 0
+        },
+        "goes:flash_time_threshold": {
+          "type": "number",
+          "minimum": 0
+        },
+        "goes:lightning_wavelength": {
+          "type": "number",
+          "minimum": 0
+        },
+        "goes:yaw_flip_flag": {
+          "type": "integer",
+          "enum": [
+            0,
+            1,
+            2
+          ]
+        },
+        "goes:event_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "goes:group_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "goes:flash_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "goes:nominal_satellite_subpoint_lat": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "goes:nominal_satellite_subpoint_lon": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "goes:nominal_satellite_height": {
+          "type": "number",
+          "minimum": 0
+        },
+        "goes:percent_navigated_L1b_events": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "goes:percent_uncorrectable_L0_errors": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  }
+}
