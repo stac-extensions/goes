@@ -4,7 +4,7 @@
 - **Identifier:** <https://stac-extensions.github.io/goes/v1.0.0/schema.json>
 - **Field Name Prefix:** goes
 - **Scope:** Item, Collection
-- **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/extensions/README.md#extension-maturity):** Proposal
+- **Extension [Maturity Classification](https://github.com/radiantearth/stac-spec/tree/master/extensions/README.md#extension-maturity):** Pilot
 - **Owner**: @m-mohr @gadomski
 
 This document explains the NOAA Geostationary Operational Environmental Satellite (GOES) extension
