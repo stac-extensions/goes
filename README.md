@@ -107,7 +107,7 @@ The following values are allowed:
   of the continental United States (CONUS) scene, and thirty observations for each of two distinct
   mesoscale scenes every fifteen minutes, during nominal operations.
 - `4`: Mode 4 - Consists of the observation of the full disk scene every five minutes.
-- `5`: Mode 5 - Consists of one observation of the full disk scene of the earth, two observations
+- `6`: Mode 6 - Consists of one observation of the full disk scene of the earth, two observations
   of the continental United States (CONUS) scene, and twenty observations for each of two distinct
   mesoscale scenes every ten minutes, during nominal operations.
 
